@@ -13,15 +13,50 @@
   <a class="back" href="index.html">返回首页</a>
 </header>
 
-<main class="write-container">
-  <canvas id="writeCanvas" width="300" height="300"></canvas>
+<main class="write-layout">
 
-  <div class="write-tools">
-    <button id="clearBtn">清除</button>
+  <!-- 左侧假名选择栏 -->
+  <div class="sidebar">
+    <h3>选择假名</h3>
+
+    <div class="daily-box">
+      今日练习：
+      <span id="dailyChar" class="daily-char"></span>
+    </div>
+
+    <button class="tab-btn active" id="hiraTab">平假名</button>
+    <button class="tab-btn" id="kataTab">片假名</button>
+
+    <div id="kanaList" class="kana-list"></div>
   </div>
+
+  <!-- 中间练习区域 -->
+  <div class="write-container">
+    
+    <!-- 底部：田字格 -->
+    <canvas id="gridCanvas" width="300" height="300"></canvas>
+
+    <!-- 中层：描红假名（每一笔动画） -->
+    <canvas id="strokeCanvas" width="300" height="300"></canvas>
+
+    <!-- 顶层：用户书写区 -->
+    <canvas id="writeCanvas" width="300" height="300"></canvas>
+
+    <div class="write-tools">
+      <button id="prevStroke">上一笔</button>
+      <button id="nextStroke">下一笔</button>
+      <button id="clearBtn">清除</button>
+    </div>
+
+    <div id="resultMsg" class="result-msg"></div>
+
+  </div>
+
 </main>
 
+<script src="js/kana-data.js"></script>
 <script src="js/writing.js"></script>
 
 </body>
 </html>
+
