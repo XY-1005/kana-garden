@@ -552,3 +552,89 @@ canvas {
     transform: scale(0.8);
   }
 }
+/* ======= 中心布局 ======= */
+#write-center {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* 按钮 */
+#tabs {
+  margin-bottom: 15px;
+}
+.tab-btn {
+  padding: 10px 18px;
+  margin: 0 5px;
+  background: #ffd6e8;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+.tab-btn.active {
+  background: #ff8fb6;
+  color: white;
+}
+
+/* 假名单（显示为格子） */
+.kana-list {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  max-width: 360px;
+  margin: 10px auto 20px auto;
+}
+.kana-list div {
+  padding: 8px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+.hidden { display: none; }
+
+/* ======= 书写区域 ======= */
+#canvas-box {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* 三层 Canvas */
+#canvas-box canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 14px;
+}
+
+#gridCanvas  { z-index: 1; background:white; }
+#strokeCanvas{ z-index: 2; pointer-events:none; }
+#writeCanvas { z-index: 3; cursor:crosshair; }
+
+/* 工具栏 */
+#tool-row {
+  margin-top: 15px;
+}
+#tool-row button {
+  padding: 8px 16px;
+  background: #ff9ec7;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#resultMsg{
+  margin-top: 10px;
+  height: 24px;
+  font-size: 18px;
+  color:#ff6fa7;
+}
+
+/* ======= 手机适配 ======= */
+@media (max-width: 768px) {
+  #canvas-box {
+    transform: scale(0.85);
+  }
+}
