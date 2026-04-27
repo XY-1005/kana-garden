@@ -14,39 +14,49 @@
   <a class="back" href="index.html">返回首页</a>
 </header>
 
-<main id="write-center">
+<main id="write-page">
 
-  <!-- 选择按钮 -->
-  <div id="tabs">
-    <button id="hiraBtn" class="tab-btn">平假名</button>
-    <button id="kataBtn" class="tab-btn">片假名</button>
-  </div>
+  <!-- 左侧选择 -->
+  <section id="left-panel">
 
-  <!-- 字帖列表（初始隐藏） -->
-  <div id="kanaList" class="kana-list hidden"></div>
+    <div class="daily-box">
+      今日练习：<span id="dailyChar"></span>
+    </div>
 
-  <!-- 书写区域 -->
-  <div id="canvas-box">
-    <canvas id="gridCanvas" width="300" height="300"></canvas>
-    <canvas id="strokeCanvas" width="300" height="300"></canvas>
-    <canvas id="writeCanvas" width="300" height="300"></canvas>
-  </div>
+    <div id="switch-row">
+      <button id="showHira" class="tab active">平假名字帖</button>
+      <button id="showKata" class="tab">片假名字帖</button>
+    </div>
 
-  <!-- 工具 -->
-  <div id="tool-row">
-    <button id="clearBtn">清除</button>
-  </div>
+    <!-- 字帖网格 container -->
+    <div id="kanaGrid"></div>
 
-  <div id="resultMsg"></div>
+  </section>
+
+  <!-- 右侧书写区域 -->
+  <section id="write-area">
+
+    <div id="canvas-box">
+      <canvas id="gridCanvas" width="300" height="300"></canvas>
+      <canvas id="strokeCanvas" width="300" height="300"></canvas>
+      <canvas id="writeCanvas" width="300" height="300"></canvas>
+    </div>
+
+    <div id="tool-row">
+      <button id="clearBtn">清除</button>
+    </div>
+
+    <div id="resultMsg"></div>
+  </section>
 
 </main>
 
 <script src="js/kana-data.js"></script>
 <script src="js/stroke-data.js"></script>
 <script src="js/writing.js"></script>
-
 </body>
 </html>
+
 
 
 
