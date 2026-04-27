@@ -1,0 +1,199 @@
+/* --------------------
+   全局基础样式
+---------------------*/
+body {
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+  background: linear-gradient(to bottom, #ffd6e8, #d9ecff);
+  color: #555;
+  text-align: center;
+}
+
+/* 黑色字体避免过浅 */
+h1, h2, h3, p { color: #555; }
+
+/* --------------------
+   Header / Logo
+---------------------*/
+.header {
+  padding: 30px 20px;
+}
+.header.small {
+  padding: 15px 20px;
+}
+
+.logo {
+  font-size: 42px;
+  font-weight: 900;
+  color: #ff8fb6;
+}
+
+.sub {
+  margin-top: -10px;
+  font-size: 18px;
+  color: #666;
+}
+
+.back {
+  font-size: 16px;
+  text-decoration: none;
+  color: #888;
+}
+
+/* --------------------
+   首页按钮
+---------------------*/
+.menu {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 40px;
+  gap: 20px;
+}
+
+.menu-btn {
+  padding: 18px;
+  font-size: 20px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: white;
+  font-weight: 700;
+  transition: transform 0.15s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.menu-btn:hover {
+  transform: translateY(-4px);
+}
+
+.pink    { background: #f7a7c2; }
+.blue    { background: #9dc7ff; }
+.yellow  { background: #ffe29d; color: #6b5c00; }
+
+/* --------------------
+   阅读：假名网格
+---------------------*/
+.toggle-box {
+  margin: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.toggle-box button {
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: bold;
+  border: none;
+  background: #ffd2e1;
+  cursor: pointer;
+}
+
+.toggle-box button.active {
+  background: #ff8fb6;
+  color: white;
+}
+
+.kana-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  max-width: 550px;
+  margin: 20px auto;
+  gap: 14px;
+}
+
+.kana-card {
+  background: white;
+  border-radius: 14px;
+  padding: 15px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.kana {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.romaji {
+  margin-top: 5px;
+  color: #888;
+  font-size: 14px;
+}
+
+/* --------------------
+   游戏页面
+---------------------*/
+.game-box {
+  margin-top: 30px;
+}
+
+.game-question {
+  font-size: 80px;
+  font-weight: bold;
+}
+
+.answer {
+  margin-top: 20px;
+  padding: 12px;
+  font-size: 20px;
+  width: 200px;
+  border-radius: 10px;
+  border: 2px solid white;
+}
+
+.feedback {
+  height: 30px;
+  margin-top: 15px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.restart {
+  margin-top: 20px;
+  padding: 12px 20px;
+  font-size: 18px;
+  border-radius: 12px;
+  background: #ffb6c7;
+  border: none;
+}
+
+/* --------------------
+   书写（Canvas）
+---------------------*/
+.write-container {
+  margin-top: 20px;
+}
+
+canvas {
+  border: 4px dashed #fff;
+  background: rgba(255,255,255,0.6);
+  border-radius: 16px;
+}
+
+#clearBtn {
+  margin-top: 20px;
+  padding: 12px 25px;
+  background: #ff8fb6;
+  border: none;
+  font-size: 18px;
+  border-radius: 12px;
+  color: white;
+}
+
+/* --------------------
+   响应式适配（手机）
+---------------------*/
+@media (max-width: 768px) {
+  .kana-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .menu-btn {
+    font-size: 18px;
+  }
+
+  .game-question {
+    font-size: 60px;
+  }
+}
