@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>假名书写 | Kana Garden</title>
-  <link rel="stylesheet" href="assets/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>假名书写练习 | Kana Garden</title>
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 
 <body>
+
 <header class="header small">
   <h1>✏️ 假名书写练习</h1>
   <a class="back" href="index.html">返回首页</a>
@@ -19,35 +20,44 @@
   <div class="sidebar">
     <h3>选择假名</h3>
 
+    <!-- 今日推荐 -->
     <div class="daily-box">
-      今日练习：
-      <span id="dailyChar" class="daily-char"></span>
+      今日练习：<span id="dailyChar" class="daily-char"></span>
     </div>
 
+    <!-- 模式选择：平假名 / 片假名 -->
     <button class="tab-btn active" id="hiraTab">平假名</button>
     <button class="tab-btn" id="kataTab">片假名</button>
 
+    <!-- 假名单 -->
     <div id="kanaList" class="kana-list"></div>
   </div>
 
-  <!-- 中间练习区域 -->
+  <!-- 右侧书写区域 -->
   <div class="write-container">
-    
-    <!-- 底部：田字格 -->
-    <canvas id="gridCanvas" width="300" height="300"></canvas>
 
-    <!-- 中层：描红假名（每一笔动画） -->
-    <canvas id="strokeCanvas" width="300" height="300"></canvas>
+    <!-- 三层画布 -->
+    <div class="canvas-wrapper">
+      <canvas id="gridCanvas" width="300" height="300"></canvas>
+      <canvas id="strokeCanvas" width="300" height="300"></canvas>
+      <canvas id="writeCanvas" width="300" height="300"></canvas>
+    </div>
 
-    <!-- 顶层：用户书写区 -->
-    <canvas id="writeCanvas" width="300" height="300"></canvas>
-
+    <!-- 工具栏 -->
     <div class="write-tools">
       <button id="prevStroke">上一笔</button>
       <button id="nextStroke">下一笔</button>
-      <button id="clearBtn">清除</button>
+      <button id="autoPlay">自动描红</button>
+
+      <button id="brushMode">笔刷</button>
+      <button id="eraserMode">橡皮擦</button>
+      <button id="colorPick">颜色</button>
+
+      <button id="downloadBtn">保存</button>
+      <button id="clearBtn" class="clear-btn">清除</button>
     </div>
 
+    <!-- 显示评分提示 -->
     <div id="resultMsg" class="result-msg"></div>
 
   </div>
@@ -55,8 +65,10 @@
 </main>
 
 <script src="js/kana-data.js"></script>
+<script src="js/stroke-data.js"></script>
 <script src="js/writing.js"></script>
 
 </body>
 </html>
+
 
