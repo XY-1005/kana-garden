@@ -197,3 +197,50 @@ canvas {
     font-size: 60px;
   }
 }
+/* --------------------
+   田字格
+---------------------*/
+#gridCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: white;
+  border-radius: 16px;
+  z-index: 1;
+}
+
+/* 笔画动画层 */
+#strokeCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+/* 用户书写层 */
+#writeCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
+
+/* 结果提示 */
+.result-msg {
+  margin-top: 15px;
+  font-size: 22px;
+  font-weight: bold;
+  height: 30px;
+  color: #ff6fa7;
+}
+
+/* 今日练习 */
+.daily-box {
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+.daily-char {
+  color: #ff4f8a;
+  font-size: 22px;
+}
