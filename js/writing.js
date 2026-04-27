@@ -1,241 +1,245 @@
-const canvas = document.getElementById("writeCanvas");
-const ctx = canvas.getContext("2d");
-let drawing = false;
+/* ============================================================
+   三层画布初始化
+============================================================ */
+const grid = document.getElementById("gridCanvas");
+const stroke = document.getElementById("strokeCanvas");
+const write = document.getElementById("writeCanvas");
 
-canvas.addEventListener("pointerdown", () => drawing = true);
-canvas.addEventListener("pointerup", () => {
-  drawing = false;
-  ctx.beginPath();
-});
-canvas.addEventListener("pointermove", e => {
-  if (!drawing) return;
-  ctx.strokeStyle = "#ff8fb6";
-  ctx.lineWidth = 6;
-  ctx.lineCap = "round";
-  ctx.lineTo(e.offsetX, e.offsetY);
-  ctx.stroke();
-});
+const g = grid.getContext("2d");
+const s = stroke.getContext("2d");
+const w = write.getContext("2d");
 
-document.getElementById("clearBtn").onclick = () => {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-};
-/* -------------------------------
-   元素引用
---------------------------------*/
-const writeCanvas = document.getElementById("writeCanvas");
-const strokeCanvas = document.getElementById("strokeCanvas");
-const gridCanvas = document.getElementById("gridCanvas");
-
-const wctx = writeCanvas.getContext("2d");
-const sctx = strokeCanvas.getContext("2d");
-const gctx = gridCanvas.getContext("2d");
-
-const hiraTab = document.getElementById("hiraTab");
-const kataTab = document.getElementById("kataTab");
-const kanaList = document.getElementById("kanaList");
-const dailyChar = document.getElementById("dailyChar");
-const resultMsg = document.getElementById("resultMsg");
-
-const prevStrokeBtn = document.getElementById("prevStroke");
-const nextStrokeBtn = document.getElementById("nextStroke");
-const clearBtn = document.getElementById("clearBtn");
-
-/* -------------------------------
-   绘图参数 + 压力模拟
---------------------------------*/
-let drawing = false;
-let lastTime = 0;
-let lastX = 0, lastY = 0;
+/* 当前状态 */
 let currentChar = "あ";
 let strokeIndex = 0;
+let autoPlayOn = false;
 
-/* -------------------------------
-   田字格绘制
---------------------------------*/
-function drawGrid() {
-  gctx.clearRect(0,0,300,300);
-  gctx.strokeStyle = "#eee";
-  gctx.lineWidth = 2;
+/* 书写状态 */
+let drawing = false;
+let ox = 0, oy = 0;
+let lastTime = 0;
 
-  // 外边框
-  gctx.strokeRect(10,10,280,280);
+/* 画笔模式 */
+let mode = "brush"; // 或 "eraser"
+let brushColor = "#ff8fb6";
 
-  // 中间十字
-  gctx.beginPath();
-  gctx.moveTo(150,10); 
-  gctx.lineTo(150,290);
-  gctx.moveTo(10,150);
-  gctx.lineTo(290,150);
-  gctx.stroke();
+/* ============================================================
+   田字格
+============================================================ */
+function drawGrid(){
+  g.clearRect(0,0,300,300);
+  g.strokeStyle="#ddd";
+  g.lineWidth=2;
+
+  g.strokeRect(10,10,280,280);
+
+  g.beginPath();
+  g.moveTo(150,10); g.lineTo(150,290);
+  g.moveTo(10,150); g.lineTo(290,150);
+  g.stroke();
 }
 drawGrid();
 
-/* -------------------------------
-   动态笔粗细：速度越快越细
---------------------------------*/
-function drawUserLine(e) {
-  if (!drawing) return;
-  
-  const rect = writeCanvas.getBoundingClientRect();
-  const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-  const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+/* ============================================================
+   坐标获取（手机 + PC）
+============================================================ */
+function getPos(e){
+  const r = write.getBoundingClientRect();
+  if(e.touches){
+    return {
+      x: e.touches[0].clientX - r.left,
+      y: e.touches[0].clientY - r.top
+    };
+  }
+  return { x: e.offsetX, y: e.offsetY };
+}
+
+/* ============================================================
+   压力笔迹：速度越快越细
+============================================================ */
+function draw(e){
+  if(!drawing) return;
 
   const now = performance.now();
+  const pos = getPos(e);
+
   const dt = now - lastTime || 16;
-  const dist = Math.hypot(x - lastX, y - lastY);
+  const dist = Math.hypot(pos.x - ox, pos.y - oy);
   const speed = dist / dt;
 
-  let lineWidth = Math.max(2, 10 - speed * 5);
+  let width = Math.max(2, 10 - speed * 3);
 
-  wctx.lineWidth = lineWidth;
-  wctx.lineCap = "round";
-  wctx.strokeStyle = "#ff8fb6";
+  w.lineWidth = width;
+  w.lineCap = "round";
+  w.strokeStyle = mode==="eraser" ? "white" : brushColor;
+  w.globalCompositeOperation = mode==="eraser" ? "destination-out" : "source-over";
 
-  wctx.lineTo(x, y);
-  wctx.stroke();
+  w.lineTo(pos.x, pos.y);
+  w.stroke();
 
-  lastX = x;
-  lastY = y;
+  ox = pos.x;
+  oy = pos.y;
   lastTime = now;
 }
 
-/* -------------------------------
-   笔画动画（逐笔）
---------------------------------*/
-function showStroke() {
-  const strokes = strokeData[currentChar];
-  if (!strokes) return;
-
-  sctx.clearRect(0,0,300,300);
-  const path = strokes[strokeIndex];
-
-  sctx.beginPath();
-  sctx.lineWidth = 14;
-  sctx.lineCap = "round";
-  sctx.strokeStyle = "#ccc";
-
-  let i = 0;
-  function animate() {
-    if (i >= path.length - 1) return;
-    sctx.moveTo(path[i][0], path[i][1]);
-    sctx.lineTo(path[i+1][0], path[i+1][1]);
-    sctx.stroke();
-    i++;
-    requestAnimationFrame(animate);
-  }
-  animate();
-}
-
-/* -------------------------------
-   自动评价手写效果
---------------------------------*/
-function evaluateWriting() {
-  const img = wctx.getImageData(0,0,300,300).data;
-
-  // 统计非空像素
-  let count = 0;
-  for (let i = 3; i < img.length; i += 4) {
-    if (img[i] > 20) count++;
-  }
-
-  if (count > 3000 && count < 15000) {
-    resultMsg.textContent = "写得不错！🌸";
-  } else {
-    resultMsg.textContent = "再试一次！💕";
-  }
-}
-
-/* -------------------------------
-   事件绑定
---------------------------------*/
-writeCanvas.addEventListener("pointerdown", (e) => {
+/* ============================================================
+   书写事件绑定（已修复断触）
+============================================================ */
+write.addEventListener("pointerdown",e=>{
   drawing = true;
-  resultMsg.textContent = "";
-  const rect = writeCanvas.getBoundingClientRect();
-  lastX = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-  lastY = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+  w.beginPath();
+  const pos = getPos(e);
+  ox = pos.x;
+  oy = pos.y;
   lastTime = performance.now();
 });
 
-writeCanvas.addEventListener("pointerup", () => {
+write.addEventListener("pointermove",draw);
+
+write.addEventListener("pointerup",()=>{
   drawing = false;
-  wctx.beginPath();
-  evaluateWriting();
+  w.beginPath();
+  evaluate();
 });
 
-writeCanvas.addEventListener("pointermove", drawUserLine);
-
-/* -------------------------------
-   清除书写
---------------------------------*/
-clearBtn.onclick = () => {
-  wctx.clearRect(0,0,300,300);
-  resultMsg.textContent = "";
+/* ============================================================
+   清除
+============================================================ */
+clearBtn.onclick = ()=>{
+  w.clearRect(0,0,300,300);
+  resultMsg.textContent="";
 };
 
-/* -------------------------------
-   笔画切换按钮
---------------------------------*/
-nextStrokeBtn.onclick = () => {
+/* ============================================================
+   描红笔画动画
+============================================================ */
+function showStroke(){
+  s.clearRect(0,0,300,300);
   const strokes = strokeData[currentChar];
-  if (!strokes) return;
-  strokeIndex = (strokeIndex + 1) % strokes.length;
+  if(!strokes) return;
+
+  const path = strokes[strokeIndex];
+  s.lineWidth = 12;
+  s.lineCap = "round";
+  s.strokeStyle = "#ccc";
+
+  let i=0;
+  function step(){
+    if(i>=path.length-1) return;
+    s.beginPath();
+    s.moveTo(path[i][0],path[i][1]);
+    s.lineTo(path[i+1][0],path[i+1][1]);
+    s.stroke();
+    i++;
+    requestAnimationFrame(step);
+  }
+  step();
+}
+
+/* 前一笔 / 下一笔 */
+prevStroke.onclick = ()=>{
+  const total = strokeData[currentChar].length;
+  strokeIndex = (strokeIndex - 1 + total) % total;
+  showStroke();
+};
+nextStroke.onclick = ()=>{
+  const total = strokeData[currentChar].length;
+  strokeIndex = (strokeIndex + 1) % total;
   showStroke();
 };
 
-prevStrokeBtn.onclick = () => {
-  const strokes = strokeData[currentChar];
-  if (!strokes) return;
-  strokeIndex = (strokeIndex - 1 + strokes.length) % strokes.length;
-  showStroke();
+/* 自动描红 */
+autoPlay.onclick = ()=>{
+  if(autoPlayOn){ autoPlayOn=false; autoPlay.textContent="自动描红"; return; }
+  autoPlayOn = true;
+  autoPlay.textContent="停止";
+  autoPlayAnime();
 };
 
-/* -------------------------------
-   生成可选假名列表
---------------------------------*/
-function loadKana(list) {
-  kanaList.innerHTML = "";
-  list.forEach(k => {
-    const el = document.createElement("div");
-    el.className = "kana-select";
-    el.textContent = k.kana;
-    el.onclick = () => {
+function autoPlayAnime(){
+  if(!autoPlayOn) return;
+  nextStroke.click();
+  setTimeout(autoPlayAnime,800);
+}
+
+/* ============================================================
+   自动评分（简化版）
+============================================================ */
+function evaluate(){
+  const img = w.getImageData(0,0,300,300).data;
+  let count=0;
+  for(let i=3;i<img.length;i+=4){
+    if(img[i]>50) count++;
+  }
+  if(count > 2000 && count < 18000){
+    resultMsg.textContent="写得不错！🌸";
+  }else{
+    resultMsg.textContent="再试试结构～💕";
+  }
+}
+
+/* ============================================================
+   假名选择
+============================================================ */
+function loadKana(list){
+  kanaList.innerHTML="";
+  list.forEach(k=>{
+    const el=document.createElement("div");
+    el.className="kana-select";
+    el.textContent=k.kana;
+    el.onclick=()=>{
       currentChar = k.kana;
-      strokeIndex = 0;
-      wctx.clearRect(0,0,300,300);
+      strokeIndex=0;
+      w.clearRect(0,0,300,300);
       showStroke();
     };
     kanaList.appendChild(el);
   });
 }
 
-/* -------------------------------
-   今日随机假名
---------------------------------*/
-function pickDailyKana() {
-  const all = [...kanaData.hiragana, ...kanaData.katakana];
-  const index = new Date().getDate() % all.length;
-  dailyChar.textContent = all[index].kana;
-  currentChar = all[index].kana;
-  showStroke();
-}
-pickDailyKana();
-
-/* -------------------------------
-   Tab（平假名/片假名）
---------------------------------*/
-hiraTab.onclick = () => {
+hiraTab.onclick=()=>{
   hiraTab.classList.add("active");
   kataTab.classList.remove("active");
   loadKana(kanaData.hiragana);
 };
-
-kataTab.onclick = () => {
+kataTab.onclick=()=>{
   kataTab.classList.add("active");
   hiraTab.classList.remove("active");
   loadKana(kanaData.katakana);
 };
 
-// 默认载入
+/* ============================================================
+   模式选择：笔刷 / 橡皮擦 / 颜色
+============================================================ */
+brushMode.onclick=()=>{ mode="brush"; };
+eraserMode.onclick=()=>{ mode="eraser"; };
+
+colorPick.onclick=()=>{
+  const c = prompt("输入颜色（如 #ff8fb6 或 red）：", brushColor);
+  if(c) brushColor=c;
+};
+
+/* ============================================================
+   保存图片为 PNG
+============================================================ */
+downloadBtn.onclick=()=>{
+  const url = write.toDataURL("image/png");
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `kana-${currentChar}.png`;
+  a.click();
+};
+
+/* ============================================================
+   今日推荐假名
+============================================================ */
+function setDaily(){
+  const all=[...kanaData.hiragana, ...kanaData.katakana];
+  const i = new Date().getDate() % all.length;
+  dailyChar.textContent = all[i].kana;
+  currentChar = all[i].kana;
+  showStroke();
+}
+
+setDaily();
 loadKana(kanaData.hiragana);
-showStroke();
