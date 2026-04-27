@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kana Garden | 五十音花园</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+<header class="header">
+  <h1 class="logo">🌸 Kana Garden</h1>
+  <p class="sub">可爱 · 简约 · 轻松掌握五十音</p>
+
+  <div class="theme-toggle">
+    <button id="themeBtn">切换主题 🌙</button>
+  </div>
+</header>
+
+<main class="menu">
+  <a class="menu-btn pink" href="reading.html">📖 阅读五十音</a>
+  <a class="menu-btn blue" href="game.html">🎮 五十音小游戏</a>
+  <a class="menu-btn yellow" href="writing.html">✏️ 假名书写练习</a>
+</main>
+
+<footer class="footer">
+  Made with ♡
+</footer>
+
+<script>
+document.getElementById("themeBtn").onclick = () => {
+  document.body.classList.toggle("dark");
+};
+</script>
+
+</body>
+</html>
