@@ -161,336 +161,75 @@ h1, h2, h3, p { color: #555; }
 /* --------------------
    书写（Canvas）
 ---------------------*/
-.write-container {
-  margin-top: 20px;
-}
-
-canvas {
-  border: 4px dashed #fff;
-  background: rgba(255,255,255,0.6);
-  border-radius: 16px;
-}
-
-#clearBtn {
-  margin-top: 20px;
-  padding: 12px 25px;
-  background: #ff8fb6;
-  border: none;
-  font-size: 18px;
-  border-radius: 12px;
-  color: white;
-}
-
-/* --------------------
-   响应式适配（手机）
----------------------*/
-@media (max-width: 768px) {
-  .kana-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .menu-btn {
-    font-size: 18px;
-  }
-
-  .game-question {
-    font-size: 60px;
-  }
-}
-/* --------------------
-   田字格
----------------------*/
-#gridCanvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: white;
-  border-radius: 16px;
-  z-index: 1;
-}
-
-/* --------------------
-   笔画动画层 
---------------------*/
-#strokeCanvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-}
-
-/* --------------------
-   用户书写层 
---------------------*/
-#writeCanvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 3;
-}
-
-/* --------------------
-   结果提示 
---------------------*/
-.result-msg {
-  margin-top: 15px;
-  font-size: 22px;
-  font-weight: bold;
-  height: 30px;
-  color: #ff6fa7;
-}
-
-/* --------------------
-   今日练习 
---------------------*/
-.daily-box {
-  margin-bottom: 10px;
-  font-weight: bold;
-  font-size: 18px;
-}
-.daily-char {
-  color: #ff4f8a;
-  font-size: 22px;
-}
-/* 布局稳定 不跳动 */
-.canvas-wrapper {
-  position: relative;
-  width: 300px;
-  height: 300px;
+/* 整体布局 */
+#write-page {
+  display: flex;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 20px;
+  gap: 30px;
+  align-items: flex-start;
 }
 
-/* 田字格 */
-#gridCanvas {
-  position: absolute;
-  top: 0; left: 0;
-  background: white;
+/* 左侧字帖区 */
+#left-panel {
+  width: 420px;
+  background: rgba(255,255,255,0.7);
   border-radius: 16px;
-  z-index: 1;
-  pointer-events: none;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* 笔画层 */
-#strokeCanvas {
-  position: absolute;
-  top: 0; left: 0;
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* 用户绘画层（唯一接受事件的层） */
-#writeCanvas {
-  position: absolute;
-  top: 0; left: 0;
-  z-index: 3;
-}
-
-/* 工具按钮 */
-.write-tools {
-  margin-top: 20px;
+#switch-row {
   display: flex;
   justify-content: center;
   gap: 10px;
-}
-
-/* 清除按钮可爱版 */
-.clear-btn {
-  background: #ff9ec7;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 10px;
-  color: white;
-  font-size: 16px;
-}
-
-/* 手机自适应 */
-@media (max-width: 768px) {
-  .canvas-wrapper {
-    transform: scale(1);
-    width: 260px;
-    height: 260px;
-  }
-  #gridCanvas, #strokeCanvas, #writeCanvas {
-    width: 260px !important;
-    height: 260px !important;
-  }
-}
-/* ======= 书写区域主布局 ======= */
-.write-layout {
-  display: flex;
-  max-width: 1000px;
-  margin: 0 auto;
-  gap: 20px;
-  padding: 20px;
-}
-
-/* 左侧菜单 */
-.sidebar {
-  width: 200px;
-  padding: 15px;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.tab-btn {
-  display: block;
-  width: 100%;
-  margin: 6px 0;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  background: #ffd6e8;
-  font-weight: bold;
-  cursor: pointer;
-}
-.tab-btn.active {
-  background: #ff8fb6;
-  color: white;
-}
-
-.kana-list {
-  margin-top: 15px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-}
-.kana-select {
-  padding: 8px;
-  background: white;
-  border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  cursor: pointer;
-}
-
-/* ======= 画布层结构 ======= */
-.canvas-wrapper {
-  position: relative;
-  width: 300px;
-  height: 300px;
-  margin: 0 auto;
-}
-
-/* 田字格 */
-#gridCanvas {
-  position: absolute;
-  top: 0; left: 0;
-  z-index: 1;
-  background: white;
-  pointer-events: none;
-  border-radius: 14px;
-}
-
-/* 描红笔画层 */
-#strokeCanvas {
-  position: absolute;
-  top: 0; left: 0;
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* 书写层 */
-#writeCanvas {
-  position: absolute;
-  top: 0; left: 0;
-  z-index: 3;
-  cursor: crosshair;
-  background: transparent;
-}
-
-/* ======= 工具栏 ======= */
-.write-tools {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.clear-btn,
-.write-tools button {
-  padding: 8px 15px;
-  border: none;
-  border-radius: 10px;
-  background: #ff9ec7;
-  color: white;
-  cursor: pointer;
-}
-
-/* ======= 手机适配 ======= */
-@media(max-width:768px){
-  .write-layout {
-    flex-direction: column;
-    align-items: center;
-  }
-  .canvas-wrapper {
-    width: 260px;
-    height: 260px;
-  }
-  #gridCanvas, #strokeCanvas, #writeCanvas {
-    width: 260px !important;
-    height: 260px !important;
-  }
-}
-/* ======= 页面整体 ======= */
-#write-page {
-  display: flex;
-  justify-content: center;
-  margin: 20px auto;
-  max-width: 1100px;
-  padding: 20px;
-  gap: 30px;
-}
-
-/* 左侧假名栏 */
-#kana-panel {
-  width: 220px;
-  background: rgba(255,255,255,0.72);
-  padding: 15px;
-  border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  height: fit-content;
-  position: sticky;
-  top: 20px;
-}
-
-#kana-panel #kanaList {
-  margin-top: 15px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-}
-
-#kana-panel #kanaList div {
-  background: white;
-  padding: 8px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  text-align: center;
-  cursor: pointer;
-}
-
-.tab-row {
-  display: flex;
-  gap: 5px;
+  margin-bottom: 15px;
 }
 
 .tab {
-  flex: 1;
-  padding: 8px;
-  border: none;
-  border-radius: 10px;
+  padding: 10px 20px;
   background: #ffd6e8;
+  border-radius: 10px;
+  border: none;
   cursor: pointer;
   font-weight: bold;
 }
+.tab.active { background: #ff8fb6; color:white; }
 
-.tab.active {
-  background: #ff8fb6;
-  color: white;
+/* 字帖网格，完美参考图风格 */
+#kanaGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
 }
 
-/* ======= 右侧书写区域 ======= */
+.kana-cell {
+  width: 72px;
+  height: 72px;
+  border: 2px solid #8cc3e8;
+  position: relative;
+  background: white;
+}
+
+/* 描红假名 */
+.kana-cell .char {
+  position: absolute;
+  font-size: 52px;
+  color: rgba(0,0,0,0.18);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 笔顺数字 */
+.kana-cell .num {
+  position: absolute;
+  font-size: 12px;
+  color: #cf5a5a;
+}
+
+/* =================== 右侧书写区 =================== */
 #write-area {
   flex: 1;
   text-align: center;
@@ -503,138 +242,34 @@ canvas {
   position: relative;
 }
 
-/* 三层 Canvas */
 #canvas-box canvas {
   position: absolute;
   top: 0;
   left: 0;
-  border-radius: 14px;
+  border-radius: 12px;
 }
 
-#gridCanvas { z-index: 1; background: white; }
-#strokeCanvas { z-index: 2; pointer-events: none; }
+#gridCanvas { z-index: 1; background:white; }
+#strokeCanvas { z-index: 2; pointer-events:none; }
 #writeCanvas { z-index: 3; cursor: crosshair; }
 
-/* 工具栏 */
 #tool-row {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-#tool-row button {
-  padding: 8px 16px;
-  border-radius: 10px;
-  border: none;
-  background: #ff9ec7;
-  color: white;
-  cursor: pointer;
-}
-
-#resultMsg {
-  margin-top: 15px;
-  font-size: 20px;
-  height: 30px;
-}
-
-/* ======= 手机 ======= */
-@media (max-width: 768px) {
-  #write-page {
-    flex-direction: column;
-    align-items: center;
-  }
-  #kana-panel {
-    width: 90%;
-  }
-  #canvas-box {
-    transform: scale(0.8);
-  }
-}
-/* ======= 中心布局 ======= */
-#write-center {
-  text-align: center;
   margin-top: 20px;
 }
 
-/* 按钮 */
-#tabs {
-  margin-bottom: 15px;
-}
-.tab-btn {
-  padding: 10px 18px;
-  margin: 0 5px;
-  background: #ffd6e8;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-}
-.tab-btn.active {
-  background: #ff8fb6;
-  color: white;
-}
-
-/* 假名单（显示为格子） */
-.kana-list {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
-  max-width: 360px;
-  margin: 10px auto 20px auto;
-}
-.kana-list div {
-  padding: 8px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  cursor: pointer;
-}
-.hidden { display: none; }
-
-/* ======= 书写区域 ======= */
-#canvas-box {
-  width: 300px;
-  height: 300px;
-  margin: 0 auto;
-  position: relative;
-}
-
-/* 三层 Canvas */
-#canvas-box canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: 14px;
-}
-
-#gridCanvas  { z-index: 1; background:white; }
-#strokeCanvas{ z-index: 2; pointer-events:none; }
-#writeCanvas { z-index: 3; cursor:crosshair; }
-
-/* 工具栏 */
-#tool-row {
-  margin-top: 15px;
-}
 #tool-row button {
-  padding: 8px 16px;
-  background: #ff9ec7;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
+  padding: 10px 20px;
+  border:none;
+  border-radius:10px;
+  background:#ff9ec7;
+  color:white;
 }
 
-#resultMsg{
-  margin-top: 10px;
-  height: 24px;
-  font-size: 18px;
-  color:#ff6fa7;
-}
-
-/* ======= 手机适配 ======= */
-@media (max-width: 768px) {
-  #canvas-box {
-    transform: scale(0.85);
+/* 手机 */
+@media (max-width:768px){
+  #write-page { flex-direction:column; align-items:center; }
+  #kanaGrid { 
+    grid-template-columns: repeat(4,1fr); 
   }
 }
+
