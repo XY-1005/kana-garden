@@ -432,3 +432,123 @@ canvas {
     height: 260px !important;
   }
 }
+/* ======= 页面整体 ======= */
+#write-page {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+  max-width: 1100px;
+  padding: 20px;
+  gap: 30px;
+}
+
+/* 左侧假名栏 */
+#kana-panel {
+  width: 220px;
+  background: rgba(255,255,255,0.72);
+  padding: 15px;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+#kana-panel #kanaList {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+#kana-panel #kanaList div {
+  background: white;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: center;
+  cursor: pointer;
+}
+
+.tab-row {
+  display: flex;
+  gap: 5px;
+}
+
+.tab {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 10px;
+  background: #ffd6e8;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.tab.active {
+  background: #ff8fb6;
+  color: white;
+}
+
+/* ======= 右侧书写区域 ======= */
+#write-area {
+  flex: 1;
+  text-align: center;
+}
+
+#canvas-box {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* 三层 Canvas */
+#canvas-box canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 14px;
+}
+
+#gridCanvas { z-index: 1; background: white; }
+#strokeCanvas { z-index: 2; pointer-events: none; }
+#writeCanvas { z-index: 3; cursor: crosshair; }
+
+/* 工具栏 */
+#tool-row {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+#tool-row button {
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: none;
+  background: #ff9ec7;
+  color: white;
+  cursor: pointer;
+}
+
+#resultMsg {
+  margin-top: 15px;
+  font-size: 20px;
+  height: 30px;
+}
+
+/* ======= 手机 ======= */
+@media (max-width: 768px) {
+  #write-page {
+    flex-direction: column;
+    align-items: center;
+  }
+  #kana-panel {
+    width: 90%;
+  }
+  #canvas-box {
+    transform: scale(0.8);
+  }
+}
