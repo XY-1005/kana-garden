@@ -16,24 +16,20 @@
 
 <main id="write-page">
 
-  <!-- 左侧选择 -->
+  <!-- 左侧区域：按钮 + 假名单 -->
   <section id="left-panel">
-
-    <div class="daily-box">
-      今日练习：<span id="dailyChar"></span>
-    </div>
 
     <div id="switch-row">
       <button id="showHira" class="tab active">平假名字帖</button>
       <button id="showKata" class="tab">片假名字帖</button>
     </div>
 
-    <!-- 字帖网格 container -->
-    <div id="kanaGrid"></div>
+    <!-- 假名按钮区（点击后显示字帖） -->
+    <div id="kanaButtons" class="kana-buttons"></div>
 
   </section>
 
-  <!-- 右侧书写区域 -->
+  <!-- 右侧：字帖 + 手写 -->
   <section id="write-area">
 
     <div id="canvas-box">
@@ -42,11 +38,8 @@
       <canvas id="writeCanvas" width="300" height="300"></canvas>
     </div>
 
-    <div id="tool-row">
-      <button id="clearBtn">清除</button>
-    </div>
+    <button id="clearBtn" class="clear-btn">清除</button>
 
-    <div id="resultMsg"></div>
   </section>
 
 </main>
@@ -56,6 +49,7 @@
 <script src="js/writing.js"></script>
 </body>
 </html>
+
 
 
 
