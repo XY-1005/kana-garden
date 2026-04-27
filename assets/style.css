@@ -252,3 +252,183 @@ canvas {
   color: #ff4f8a;
   font-size: 22px;
 }
+/* 布局稳定 不跳动 */
+.canvas-wrapper {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+}
+
+/* 田字格 */
+#gridCanvas {
+  position: absolute;
+  top: 0; left: 0;
+  background: white;
+  border-radius: 16px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 笔画层 */
+#strokeCanvas {
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 用户绘画层（唯一接受事件的层） */
+#writeCanvas {
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 3;
+}
+
+/* 工具按钮 */
+.write-tools {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* 清除按钮可爱版 */
+.clear-btn {
+  background: #ff9ec7;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+}
+
+/* 手机自适应 */
+@media (max-width: 768px) {
+  .canvas-wrapper {
+    transform: scale(1);
+    width: 260px;
+    height: 260px;
+  }
+  #gridCanvas, #strokeCanvas, #writeCanvas {
+    width: 260px !important;
+    height: 260px !important;
+  }
+}
+/* ======= 书写区域主布局 ======= */
+.write-layout {
+  display: flex;
+  max-width: 1000px;
+  margin: 0 auto;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* 左侧菜单 */
+.sidebar {
+  width: 200px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.tab-btn {
+  display: block;
+  width: 100%;
+  margin: 6px 0;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #ffd6e8;
+  font-weight: bold;
+  cursor: pointer;
+}
+.tab-btn.active {
+  background: #ff8fb6;
+  color: white;
+}
+
+.kana-list {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+.kana-select {
+  padding: 8px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+/* ======= 画布层结构 ======= */
+.canvas-wrapper {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+}
+
+/* 田字格 */
+#gridCanvas {
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 1;
+  background: white;
+  pointer-events: none;
+  border-radius: 14px;
+}
+
+/* 描红笔画层 */
+#strokeCanvas {
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 书写层 */
+#writeCanvas {
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 3;
+  cursor: crosshair;
+  background: transparent;
+}
+
+/* ======= 工具栏 ======= */
+.write-tools {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.clear-btn,
+.write-tools button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 10px;
+  background: #ff9ec7;
+  color: white;
+  cursor: pointer;
+}
+
+/* ======= 手机适配 ======= */
+@media(max-width:768px){
+  .write-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+  .canvas-wrapper {
+    width: 260px;
+    height: 260px;
+  }
+  #gridCanvas, #strokeCanvas, #writeCanvas {
+    width: 260px !important;
+    height: 260px !important;
+  }
+}
