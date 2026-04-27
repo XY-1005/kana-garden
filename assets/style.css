@@ -209,7 +209,9 @@ canvas {
   z-index: 1;
 }
 
-/* 笔画动画层 */
+/* --------------------
+   笔画动画层 
+--------------------*/
 #strokeCanvas {
   position: absolute;
   top: 0;
@@ -217,7 +219,9 @@ canvas {
   z-index: 2;
 }
 
-/* 用户书写层 */
+/* --------------------
+   用户书写层 
+--------------------*/
 #writeCanvas {
   position: absolute;
   top: 0;
@@ -225,7 +229,9 @@ canvas {
   z-index: 3;
 }
 
-/* 结果提示 */
+/* --------------------
+   结果提示 
+--------------------*/
 .result-msg {
   margin-top: 15px;
   font-size: 22px;
@@ -234,7 +240,9 @@ canvas {
   color: #ff6fa7;
 }
 
-/* 今日练习 */
+/* --------------------
+   今日练习 
+--------------------*/
 .daily-box {
   margin-bottom: 10px;
   font-weight: bold;
